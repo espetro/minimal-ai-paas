@@ -1,0 +1,10 @@
+model_list:
+  - model_name: hf.co/LiquidAI/LFM2-1.2B-GGUF:Q4_K_M
+    litellm_params:
+      model: ollama/hf.co/LiquidAI/LFM2-1.2B-GGUF:Q4_K_M
+      # Routes to docker container when OLLAMA_MODE=docker
+      # Routes to host machine when OLLAMA_MODE=native
+      api_base: http://ollama:11434
+
+general_settings:
+  master_key: sk-admin-master-secret

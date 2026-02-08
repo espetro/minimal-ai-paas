@@ -1,0 +1,55 @@
+services:
+  # Service 1: Inference Engine (Option A - Docker/CPU)
+  # This service is started conditionally based on OLLAMA_MODE
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-ollama
+    volumes:
+      - ./ollama:/root/.ollama
+    ports:
+      - "${OLLAMA_PORT}:11434"
+    restart: always
+    profiles:
+      - docker-mode  # Only starts when explicitly activated
+
+  # Service 2: AI Gateway (API Key Manager & Rate Limiter)
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: ai-gateway
+    ports:
+      - "${LITELLM_PORT}:4000"
+    volumes:
+      - ./litellm/config.yaml:/app/config.yaml
+      - ./litellm/data:/data
+    command:
+      - "--config"
+      - "/app/config.yaml"
+      - "--port"
+      - "4000"
+      - "--detailed_debug"
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+      DEFAULT_MODEL: ${DEFAULT_MODEL}
+      OLLAMA_API_BASE: ${OLLAMA_API_BASE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+
+  # Service 3: Web UI (Chat Interface)
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: ai-webui
+    ports:
+      - "${WEBUI_PORT}:8080"
+    environment:
+      OPENAI_API_BASE_URL: "http://litellm:4000/v1"
+      OPENAI_API_KEY: ${LITELLM_MASTER_KEY}
+      WEBUI_ADMIN_EMAIL: ${WEBUI_ADMIN_EMAIL}
+      WEBUI_ADMIN_PASSWORD: ${WEBUI_ADMIN_PASSWORD}
+      ENABLE_SIGNUP: ${ENABLE_SIGNUP}
+      WEBUI_AUTH: ${WEBUI_AUTH}
+    volumes:
+      - ./openwebui:/app/backend/data
+    depends_on:
+      - litellm
+    restart: always

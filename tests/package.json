@@ -1,0 +1,20 @@
+{
+  "name": "minimal-ai-paas-tests",
+  "version": "1.0.0",
+  "description": "E2E tests for Minimal AI PaaS",
+  "scripts": {
+    "test": "gauge run specs",
+    "test:platform": "gauge run specs/platform_initialization.spec",
+    "test:health": "gauge run specs/service_health_checks.spec",
+    "test:webui": "gauge run specs/webui_functionality.spec",
+    "test:api": "gauge run specs/api_gateway_requests.spec"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "gauge-ts": "^2.3.8",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "zx": "^8.2.4"
+  }
+}

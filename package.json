@@ -1,0 +1,19 @@
+{
+  "name": "minimal-ai-paas",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "init": "tsx scripts/init.ts",
+    "health": "tsx scripts/health-check.ts",
+    "teardown": "tsx scripts/teardown.ts",
+    "gen-key": "tsx scripts/generate-key.ts"
+  },
+  "dependencies": {
+    "zx": "^8.2.4",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}

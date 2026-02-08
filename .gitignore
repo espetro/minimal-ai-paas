@@ -1,0 +1,29 @@
+# Environment and secrets
+.env
+
+# Data directories (auto-created by Docker)
+ollama/
+openwebui/
+
+# Node.js
+node_modules/
+*.log
+
+# System files
+.DS_Store
+.vscode/
+.idea/
+
+# TypeScript build artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# Test reports and logs
+tests/reports/
+tests/logs/
+tests/.gauge/
+*.log
+
+# LiteLLM data directory
+litellm/data/
